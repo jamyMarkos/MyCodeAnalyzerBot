@@ -1,3 +1,5 @@
+import { HfInference } from "@huggingface/inference";
+
 import dotenv from "dotenv";
 import axios from "axios";
 
@@ -20,7 +22,9 @@ if (!apiKey || !modelUrl) {
  * @returns A promise that resolves to the analysis result.
  */
 
-export async function analyzeFile(fileContent: string): Promise<string> {
+export async function analyzeFile(fileContent: string) {
+  const inference = new HfInference(`${apiKey}`);
+
   const prompt = `You are a code analysis assistant. 
     Please evaluate the following code based on its structure, clarity, and error handling:
     
@@ -29,28 +33,14 @@ export async function analyzeFile(fileContent: string): Promise<string> {
     Provide a review that assesses the code's organization, readability, and how it handles errors, 
     but do not suggest any code changes or improvements.`;
 
-  try {
-    const response = await axios.post(
-      modelUrl as string,
-      { inputs: prompt },
-      {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    // Check if the result contains data and return the analysis
-    const result = response.data;
-
-    if (result && result.length > 0 && result[0].generated_text) {
-      return result[0].generated_text;
-    } else {
-      return "No analysis result found.";
-    }
-  } catch (error) {
-    console.error("Error during Huggingface API request:", error);
-    throw new Error("Error analyzing the file.");
+  let result = "";
+  for await (const chunk of inference.chatCompletionStream({
+    model: "meta-llama/Llama-3.2-1B-Instruct",
+    messages: [{ role: "user", content: prompt }],
+    max_tokens: 500,
+  })) {
+    result += chunk.choices[0]?.delta?.content || "";
   }
+
+  return result;
 }

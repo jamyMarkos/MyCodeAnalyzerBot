@@ -24,7 +24,16 @@ export async function processFile(
 
 // Download the file from Telegram
 async function downloadFile(fileUrl: string): Promise<string> {
-  const filePath = `./downloads/${path.basename(fileUrl)}`;
+  const downloadDir = path.join(__dirname, "../../downloads");
+
+  //   Ensure the 'downloads' directory exists
+  if (!fs.existsSync(downloadDir)) {
+    fs.mkdirSync(downloadDir, {
+      recursive: true,
+    });
+  }
+
+  const filePath = path.join(downloadDir, path.basename(fileUrl));
   const writer = fs.createWriteStream(filePath);
 
   const response = await axios({

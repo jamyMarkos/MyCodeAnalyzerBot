@@ -1,7 +1,7 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
 import path from "path";
 import { processFile } from "./fileHandler";
-import { escapeMarkdown } from "../utils/utils";
+import { escapeMarkdown, formatResponseForTelegram } from "../utils/utils";
 import { sendLongMessage } from "../utils/messageUtils";
 
 export async function handleIncomingMessage(bot: TelegramBot, msg: Message) {
@@ -18,12 +18,12 @@ export async function handleIncomingMessage(bot: TelegramBot, msg: Message) {
         const analysisResult = await processFile(bot, fileId);
 
         // Escape markdown before sending the message
-        // const safeMessage = escapeMarkdown(analysisResult);
+        const safeMessage = formatResponseForTelegram(analysisResult);
 
         await sendLongMessage(
           bot,
           chatId,
-          `*Analysis Results:*\n\n${analysisResult}`
+          `*Analysis Results:*\n\n${safeMessage}`
         );
       } catch (error) {
         bot.sendMessage(chatId, `Failed to process the file: ${error}`);

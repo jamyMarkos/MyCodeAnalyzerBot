@@ -25,3 +25,10 @@ export function escapeMarkdown(text: string): string {
     .replace(/\./g, "\\.")
     .replace(/!/g, "\\!");
 }
+
+export const formatResponseForTelegram = (text: string) => {
+  // Replace '### ' headers with Telegram-compatible bold formatting
+  let formattedResponse = text.replace(/### /g, "");
+
+  return formattedResponse;
+};

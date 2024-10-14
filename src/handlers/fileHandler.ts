@@ -11,15 +11,19 @@ export async function processFile(
   // Download the file from Telegram
   const fileUrl = await bot.getFileLink(fileId);
   const filePath = await downloadFile(fileUrl);
-  const fileContent = fs.readFileSync(filePath, "utf-8");
 
-  // Send file content to Huggingface for analysis
-  const analysisResult = await analyzeFile(fileContent);
+  try {
+    const fileContent = fs.readFileSync(filePath, "utf-8");
 
-  // Clean up : Delete the file after processing
-  fs.unlinkSync(filePath);
-
-  return analysisResult;
+    // Send file content to Huggingface for analysis
+    const analysisResult = await analyzeFile(fileContent);
+    return analysisResult;
+  } finally {
+    // Clean up : Delete the file after processing
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  }
 }
 
 // Download the file from Telegram

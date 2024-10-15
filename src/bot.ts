@@ -6,9 +6,10 @@ import http from "http";
 // Load environment variables
 dotenv.config();
 
-/* a sample route for health check
-// Create a server object
-*/
+/**
+ * A sample route for health check
+ * Create a server object
+ */
 const server = http.createServer((req: any, res: any) => {
   // Set the response header with HTTP status and Content-Type
   res.writeHead(200, { "Content-Type": "text/plain" });
@@ -18,7 +19,7 @@ const server = http.createServer((req: any, res: any) => {
 });
 
 // Define the port to listen on
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Start the server
 server.listen(port, () => {

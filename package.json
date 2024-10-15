@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "start": "npx ts-node src/bot.ts"
   },
   "keywords": [],
@@ -15,10 +16,11 @@
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "node-telegram-bot-api": "^0.66.0",
-    "typescript": "^5.6.3"
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/node-telegram-bot-api": "^0.64.7",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "typescript": "^5.6.3"
   }
 }

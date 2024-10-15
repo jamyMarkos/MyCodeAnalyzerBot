@@ -15,8 +15,6 @@
 - **TypeScript** for type safety.
 - **Telegram Bot API** for user interactions.
 - **Hugging Face API** for AI-based code analysis.
-- **Axios** for HTTP requests.
-- **PM2** for process management in production.
 
 ## Installation
 
@@ -32,7 +30,7 @@
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/MyCodeAnalyzerBot.git
+   git clone  https://github.com/jamyMarkos/MyCodeAnalyzerBot
    cd MyCodeAnalyzerBot
    ```
 

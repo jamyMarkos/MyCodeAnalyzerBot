@@ -38,7 +38,34 @@ if (!botToken) {
 const bot = new TelegramBot(botToken, { polling: true });
 
 // Message handler
-bot.on("message", (msg: any) => handleIncomingMessage(bot, msg));
+bot.on("message", (msg: any) => {
+  const chatId = msg.chat.id;
+  const text = msg.text?.toLowerCase();
+
+  if (text === "/start") {
+    // Send a welcome message
+    bot.sendMessage(chatId, "Welcome to the bot! Bot analyzes code snippets.", {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "Get Started", callback_data: "get_started" }],
+          [{ text: "Learn More", url: "https://dummylink.com" }],
+        ],
+      },
+    });
+  } else {
+    handleIncomingMessage(bot, msg);
+  }
+});
+
+// Listen for callback queries
+bot.on("callback_query", (callbackQuery: any) => {
+  const chatId = callbackQuery.message.chat.id;
+  const data = callbackQuery.data;
+
+  if (data === "get_started") {
+    bot.sendMessage(chatId, "You have started the bot!");
+  }
+});
 
 // Error handle for polling
 bot.on("polling_error", (error: any) => {

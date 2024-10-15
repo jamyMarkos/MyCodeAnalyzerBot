@@ -44,15 +44,18 @@ bot.on("message", (msg: any) => {
 
   if (text === "/start") {
     // Send a welcome message
-    bot.sendMessage(chatId, "Welcome to the bot! Bot analyzes code snippets.", {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "Get Started", callback_data: "get_started" }],
-          [{ text: "Learn More", url: "https://dummylink.com" }],
-        ],
-      },
-    });
-    bot.sendMessage(chatId, "🐢");
+    bot.sendMessage(
+      chatId,
+      "Welcome to the bot! Bot reviews code snippets from files uploaded.",
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "Get Started", callback_data: "get_started" }],
+            [{ text: "Learn More", url: "https://dummylink.com" }],
+          ],
+        },
+      }
+    );
   } else {
     handleIncomingMessage(bot, msg);
   }

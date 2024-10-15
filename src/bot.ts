@@ -64,10 +64,7 @@ bot.on("callback_query", (callbackQuery: any) => {
   const data = callbackQuery.data;
 
   if (data === "get_started") {
-    bot.sendMessage(
-      chatId,
-      "You have started the bot! Please upload your code files for analysis."
-    );
+    bot.sendMessage(chatId, "Please upload your code files for analysis. 📥");
   }
 });
 

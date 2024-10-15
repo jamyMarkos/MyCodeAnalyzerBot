@@ -37,7 +37,7 @@ if (!botToken) {
 // Initialize the bot
 const bot = new TelegramBot(botToken, { polling: true });
 
-// Message handler
+// Welcome message with inline buttons
 bot.on("message", (msg: any) => {
   const chatId = msg.chat.id;
   const text = msg.text?.toLowerCase();
@@ -52,6 +52,7 @@ bot.on("message", (msg: any) => {
         ],
       },
     });
+    bot.sendMessage(chatId, "🐢");
   } else {
     handleIncomingMessage(bot, msg);
   }
@@ -63,7 +64,10 @@ bot.on("callback_query", (callbackQuery: any) => {
   const data = callbackQuery.data;
 
   if (data === "get_started") {
-    bot.sendMessage(chatId, "You have started the bot!");
+    bot.sendMessage(
+      chatId,
+      "You have started the bot! Please upload your code files for analysis."
+    );
   }
 });
 
